@@ -22,8 +22,6 @@ class User(models.Model):
     email = models.EmailField(max_length=50)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    bio = models.CharField(max_length=500, blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -34,14 +32,12 @@ class Profile(models.Model):
     #count the number of follows
     def num_follows(self):
         return self.follows.all().count()
-    #get bio from user
-    def get_bio(self):
-        return self.user.bio
 
         
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     follows = models.ManyToManyField(User, related_name='following', blank=True, symmetrical=False)
-    bio = property(get_bio)
+    bio = models.CharField(max_length=500, blank=True)
+    profile_pic = models.ImageField(upload_to='profile_pics', blank=True)
     followers_count = property(num_follows)
 
     created_at = models.DateTimeField(auto_now_add=True)

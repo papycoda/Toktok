@@ -12,8 +12,21 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ('user',)
     list_per_page = 25
 
-admin.site.register(User)
-admin.site.register(Profile, ProfileAdmin)
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'profile'
+
+class UserAdmin(admin.ModelAdmin):
+    inlines = [ProfileInline, ]
+    list_display = ('id', 'username', 'email', 'first_name', 'last_name', 'created_at',)
+    list_display_links = ('id', 'username',)
+    search_fields = ('username', 'email', 'first_name', 'last_name',)
+    list_filter = ('username', 'email', 'first_name', 'last_name',)
+    list_per_page = 25
+
+
+admin.site.register(User, UserAdmin)
 
 
 

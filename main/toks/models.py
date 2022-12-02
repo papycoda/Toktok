@@ -30,4 +30,19 @@ class Toks(models.Model):
     #count the number of retoks
     def num_retoks(self):
         return self.retoks.all().count()
+
+class TokComment(models.Model):
+    '''comments under a tok, details include the user who commented, the tok commented on and the comment'''
+    # the user who commented
+    commented_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    # the tok commented on
+    tok = models.ForeignKey(Toks, on_delete=models.CASCADE)
+    # the comment
+    comment = models.CharField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.comment     
     
+    class Meta:
+        ordering = ['-created_at']
