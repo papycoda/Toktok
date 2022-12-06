@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'toks',
     'users',
     'main',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

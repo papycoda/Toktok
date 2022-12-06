@@ -1,7 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
-
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -10,7 +7,6 @@ from rest_framework.parsers import JSONParser
 from .models import User
 from .serializers import UserSerializer
 
-# Create your views here.
 
 #list all users or create a new user
 @csrf_exempt
