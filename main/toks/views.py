@@ -1,18 +1,16 @@
 from django.shortcuts import render
-
-# Create your views here.
-
-#api endpoint to create a tok
+from rest_framework.decorators import api_view
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 
-from .models import Tok
+from .models import Toks
 from .serializers import TokSerializer
 
 #create a tok
 @csrf_exempt
+@api_view(['POST',])
 def create_tok(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
@@ -24,14 +22,18 @@ def create_tok(request):
 
 #list all toks
 @csrf_exempt
+@api_view (['POST','GET'])
 def list_toks(request):
-    if request.method == 'GET':
-        toks = Tok.objects.all()
-        serializer = TokSerializer(toks, many=True)
-        return JsonResponse(serializer.data, safe=False)
+    #list all toks
+    toks = Toks.objects.all()
+    serializer = TokSerializer(toks, many = True)
+
+    return JsonResponse(serializer.data, safe=False)
+
 
 #retrieve, update, or delete a tok
 @csrf_exempt
+@api_view(['GET', 'PUT', 'DELETE'])
 def tok_detail(request, pk):
     try:
         tok = Tok.objects.get(pk=id)

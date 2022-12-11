@@ -1,9 +1,9 @@
 #serializer for toks
 from rest_framework import serializers
-from .models import Tok
+from .models import Toks
 
 
 class TokSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Tok
+        model = Toks
         fields = '__all__'
