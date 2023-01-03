@@ -9,5 +9,5 @@ urlpatterns = [
     #list all toks by default
     path('', list_toks),
     #retrieve, update, or delete a tok
-    path('<int:pk>/', tok_detail),
+    path('<int:id>/', tok_detail),
 ]

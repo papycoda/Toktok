@@ -4,13 +4,20 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-
+from fastapi import FastAPI
+from fastapi import Response
+from pydantic import BaseModel
 from .models import Toks
 from .serializers import TokSerializer
 
+app = FastAPI()
+
+class TokRequest(BaseModel):
+    tok: str
+
 #create a tok
 @csrf_exempt
-@api_view(['POST',])
+@app.post("/toks/") #this is the route for the endpoint that will be created 
 def create_tok(request):
     if request.method == 'POST':
         data = JSONParser().parse(request)
@@ -22,7 +29,7 @@ def create_tok(request):
 
 #list all toks
 @csrf_exempt
-@api_view (['POST','GET'])
+@app.get("/toks/")
 def list_toks(request):
     #list all toks
     toks = Toks.objects.all()
@@ -33,11 +40,11 @@ def list_toks(request):
 
 #retrieve, update, or delete a tok
 @csrf_exempt
-@api_view(['GET', 'PUT', 'DELETE'])
-def tok_detail(request, pk):
+@app.get("/toks/{id}/")
+def tok_detail(request, id):
     try:
-        tok = Tok.objects.get(pk=id)
-    except Tok.DoesNotExist:
+        tok = Toks.objects.get(id=id)
+    except Toks.DoesNotExist:
         return HttpResponse(status=404, content="Tok not found")
 
     if request.method == 'GET':

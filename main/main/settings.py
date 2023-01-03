@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'toks',
     'users',
     'main',
-    'rest_framework'
+    'rest_framework',
+    'oauth2_provider',
+    'fastapi',
 ]
 
 MIDDLEWARE = [

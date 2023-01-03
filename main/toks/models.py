@@ -13,8 +13,9 @@ class Toks(models.Model):
         default=generate_uuid,
         editable=False
     )
-    # the user who created the toks
+    # the username who created the toks
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by_username = models.CharField(max_length=50)
     # the toks text
     tok = models.CharField(max_length=500)
     # the toks likes
@@ -30,6 +31,11 @@ class Toks(models.Model):
 
     def __str__(self):
         return self.tok
+
+    def save(self, *args, **kwargs):
+        # get the username of the user who created the toks
+        self.created_by_username = self.created_by.username
+        super().save(*args, **kwargs)
     #count the number of likes
     def num_likes(self):
         return self.likes.all().count()
